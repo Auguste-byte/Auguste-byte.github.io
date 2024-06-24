@@ -10,7 +10,7 @@ const Error = document.getElementById('Error')
 let data
 let userData
 let skillData
-let ratioData
+let level
 
 let graphData = ""
 let graphData2 = ""
@@ -133,11 +133,13 @@ async function query(token) {
     let skillJs = skillData.filter(skillData => skillData.type.includes('js'))
     let lastSkillJs = skillJs.length > 0 ? skillJs[skillJs.length - 1] : null;
 
+    let userLvl = skillData.filter(skillData => skillData.type.includes('level'))
+    let lastLvl = userLvl.length > 0 ? userLvl[userLvl.length - 1] : null;
 
     graphData = `${lastSkillGo.amount};${lastSkillBack.amount};${lastSkillFront.amount};${lastSkillHtml.amount};${lastSkillJs.amount}`
     graphData2= `${userData.totalUp};${userData.totalDown}`
-
-
+    level = `${lastLvl.amount}`
+    
     send() 
    
 }
@@ -147,13 +149,17 @@ function send() {
     const userContainer = document.getElementById('User-container');
     if (userContainer) {
         const infoUser = document.createElement('div');
+        const LVL = document.createElement('div')
         const dataUser = document.createElement('div');
         infoUser.id = 'userDiv';
+        LVL.id = 'lvlDiv'
         dataUser.id = 'dataDiv'
         infoUser.innerHTML = `<b>${userData.attrs.firstName} ${userData.attrs.lastName} </b> <br> ${userData.attrs.addressStreet} <br> ${userData.attrs.addressPostalCode} ${userData.attrs.addressCity}`
+        LVL.innerText = `\n Level : ${level}`
         dataUser.innerHTML = `<br> Attentes: <br> <br> ${userData.attrs.attentes}`
 
-        userContainer.appendChild(infoUser);
+        userContainer.appendChild(infoUser)
+        userContainer.appendChild(LVL)
         userContainer.appendChild(dataUser)
     }
 

@@ -72,7 +72,7 @@ flex-direction: column;
     color: red;
     display: flex;
     justify-content: space-between;
-    margin-top: 7%;
+    margin-top: 10%;
 }
 
 #logout {
