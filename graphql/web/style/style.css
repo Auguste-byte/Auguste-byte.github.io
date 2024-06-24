@@ -1,0 +1,101 @@
+html, body {
+    height: 100%;
+    width: 100%; 
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../images/rendu-3d-conception-communications-reseau-low-poly_1048-13633.jpg');
+    background-size: cover; 
+    background-position: center; 
+   
+}
+
+#User-container, #skill-container, #xp-container {
+  
+    border: 1px solid #ccc; /* Optionnel: pour voir les limites du conteneur */
+    padding: 20px; /* Optionnel: pour ajouter de l'espace autour du formulaire */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optionnel: pour ajouter une ombre */
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    background-color: rgba(255, 255, 255, 0.5)
+    
+ 
+}
+
+#skill-container, #xp-container{
+
+/* height: 100%; */
+width: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+
+
+
+#stats-container {
+
+    display: flex;
+
+
+}
+
+#userDiv{
+    display: flex;
+    flex-direction: column;
+
+}
+
+#App, #AppContainer {
+
+
+display: flex;
+align-content: center;
+justify-content: center;
+flex-direction: column;
+
+}
+
+#Error{
+    opacity: 0;
+    color: red;
+}
+
+
+
+#Header-container{
+    color: red;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7%;
+}
+
+#logout {
+    width: 92px; /* Définir la largeur du bouton */
+    height: 42px; /* Définir la hauteur du bouton */
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Ajouter du padding pour ajuster l'espacement intérieur */
+    font-size: 16px; /* Définir la taille de la police */
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 2%;
+}
+
+#logout:hover {
+    background-color: #ff1a1a;
+}
+
+/* 
+#pie-chart2 {
+    height: 50%;
+    width: 50%;
+    margin-top: 38%;
+} */

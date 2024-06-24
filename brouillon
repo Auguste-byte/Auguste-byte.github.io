@@ -1,0 +1,75 @@
+class PieChart extends HTMLElement {
+  static get observedAttributes() {
+      return ['data', 'labels'];
+  }
+
+  constructor() {
+      super();
+      this.attachShadow({ mode: 'open' });
+      const svg = strToDom(`<svg viewBox="-1 -1 2 2" style="width: 100%; height: 100%;"></svg>`);
+      this.shadowRoot.appendChild(svg);
+      this.svg = svg;
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+      if (name === 'data' || name === 'labels') {
+          this.updateData();
+          this.draw();
+      }
+  }
+
+  updateData() {
+      const colors = ['#FAAA32', '#3EFAD7', '#FA6A25', '#0C94FA', '#FA1F19', '#0CFAE2', '#AB6D23'];
+      this.data = (this.getAttribute('data') || '0').split(';').map(v => parseFloat(v));
+      this.labels = (this.getAttribute('labels') || '').split(';');
+
+      this.paths = this.data.map((_, k) => {
+          if (!this.svg.children[k]) {
+              const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+              path.setAttribute('fill', colors[k % (colors.length)]);
+              this.svg.appendChild(path);
+              return path;
+          }
+          return this.svg.children[k];
+      });
+
+      this.texts = this.data.map((_, k) => {
+          let text = this.svg.querySelector(`text[data-index="${k}"]`);
+          if (!text) {
+              text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+              text.setAttribute('data-index', k);
+              text.setAttribute('fill', 'black');
+              text.setAttribute('font-size', '0.1');
+              text.setAttribute('text-anchor', 'middle');
+              this.svg.appendChild(text);
+          }
+          return text;
+      });
+  }
+
+  draw() {
+      const total = this.data.reduce((acc, v) => acc + v, 0);
+      let angle = 0;
+      let start = new Point(1, 0);
+
+      for (let k = 0; k < this.data.length; k++) {
+          const ratio = this.data[k] / total;
+          const endAngle = angle + ratio * 2 * Math.PI;
+          const end = Point.fromAngle(endAngle);
+          const largeFlag = ratio > 0.5 ? '1' : '0';
+
+          this.paths[k].setAttribute('d', `M 0 0 L ${start.toSvgPath()} A 1 1 0 ${largeFlag} 1 ${end.toSvgPath()} L 0 0`);
+
+          const midAngle = angle + ratio * Math.PI;
+          const midPoint = Point.fromAngle(midAngle);
+          const value = this.data[k];
+
+          this.texts[k].setAttribute('x', midPoint.x * 0.7);
+          this.texts[k].setAttribute('y', midPoint.y * 0.7);
+          this.texts[k].textContent = `${this.labels[k] || ''} ${value}%`;
+
+          angle = endAngle;
+          start = end;
+      }
+  }
+}
